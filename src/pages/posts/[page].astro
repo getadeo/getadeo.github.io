@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+	const perPage = 5;
+	const allPosts = (await getCollection('posts')).sort(
+		(a, b) => b.data.date.getTime() - a.data.date.getTime()
+	);
+	const totalPages = Math.ceil(allPosts.length / perPage);
+
+	return Array.from({ length: totalPages }, (_, i) => ({
+		params: { page: String(i + 1) },
+		props: {
+			posts: allPosts.slice(i * perPage, (i + 1) * perPage),
+			currentPage: i + 1,
+			totalPages,
+		},
+	}));
+}
+
+const { posts, currentPage, totalPages } = Astro.props;
+---
+
+<Base title={`Posts${currentPage > 1 ? ` — Page ${currentPage}` : ''} — Genesis Tadeo`}>
+	<nav>
+		<a href="/">&larr; Home</a>
+	</nav>
+
+	<header class="my-8 mb-10">
+		<h1 class="text-2xl font-semibold mb-1">Posts</h1>
+		<p class="text-muted text-[0.95rem]">Reading, running, software engineering, among other things.</p>
+	</header>
+
+	<ul class="list-none">
+		{posts.map((post) => (
+			<li class="mb-6">
+				<a href={`/posts/${post.id}`} class="font-medium">{post.data.title}</a>
+				<div class="text-sm text-muted mt-0.5">
+					<time>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+					{post.data.tags && (
+						<span> · {post.data.tags.join(', ')}</span>
+					)}
+				</div>
+				{post.data.description && (
+					<p class="text-[0.9rem] text-muted mt-1">{post.data.description}</p>
+				)}
+			</li>
+		))}
+	</ul>
+
+	<nav class="flex items-center justify-between mt-10 pt-6 border-t border-border text-sm">
+		{currentPage > 1 ? (
+			<a href={`/posts/${currentPage - 1}`}>&larr; Newer</a>
+		) : (
+			<span class="text-muted">&larr; Newer</span>
+		)}
+
+		<span class="text-muted">{currentPage} / {totalPages}</span>
+
+		{currentPage < totalPages ? (
+			<a href={`/posts/${currentPage + 1}`}>Older &rarr;</a>
+		) : (
+			<span class="text-muted">Older &rarr;</span>
+		)}
+	</nav>
+</Base>

@@ -1,0 +1,130 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-mono: 'JetBrains Mono', monospace;
+  --color-text: #251749;
+  --color-muted: #263159;
+  --color-link: #495579;
+  --color-link-hover: #251749;
+  --color-bg: #F8F8FF;
+  --color-border: #dddde8;
+  --color-highlight: #F5D08C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: #d5d0c8;
+    --color-muted: #8a8398;
+    --color-link: #DCC48E;
+    --color-link-hover: #d5d0c8;
+    --color-bg: #1e1b2e;
+    --color-border: #2e2a42;
+    --color-highlight: #F5D08C;
+  }
+}
+
+@layer base {
+  body {
+    @apply font-mono text-text bg-bg leading-relaxed;
+  }
+
+  h1, h2, h3 {
+    display: inline;
+    background: url("//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=F5D08C");
+    background-size: 100% 100%;
+    margin: -2px -6px;
+    padding: 2px 6px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    h1, h2, h3 {
+      background: url("//s2.svgbox.net/pen-brushes.svg?ic=brush-1&color=2e2a42");
+      background-size: 100% 100%;
+    }
+  }
+
+  a {
+    @apply text-link underline underline-offset-2;
+  }
+
+  a:hover {
+    @apply text-link-hover decoration-2;
+  }
+
+  /* Prose styles for blog post content */
+  .prose h2 {
+    @apply text-xl font-semibold text-text mt-6 mb-2 normal-case tracking-normal;
+  }
+
+  .prose h3 {
+    @apply text-lg font-semibold mt-5 mb-2;
+  }
+
+  .prose p {
+    @apply mb-4;
+  }
+
+  .prose ul, .prose ol {
+    @apply mb-4 pl-6;
+  }
+
+  .prose li {
+    @apply mb-1;
+  }
+
+  .prose code {
+    @apply text-[0.9em] bg-border px-1.5 py-0.5 rounded-sm;
+  }
+
+  .prose pre {
+    @apply p-4 rounded-md overflow-x-auto mb-4 font-mono text-sm leading-relaxed;
+  }
+
+  .prose pre code {
+    @apply bg-transparent p-0;
+  }
+
+  .prose pre .line {
+    @apply leading-relaxed;
+  }
+
+  .prose blockquote {
+    @apply border-l-3 border-border pl-4 text-muted mb-4;
+  }
+
+  .prose img {
+    @apply w-full rounded-md mb-4 mt-2;
+  }
+}
