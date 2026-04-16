@@ -1,26 +1,100 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 
 interface Props {
 	title: string;
 	description?: string;
+	ogImage?: string;
 }
 
-const { title, description = "Genesis Tadeo — Software engineer specializing in API design and development." } = Astro.props;
+const {
+	title,
+	description = "Genesis Tadeo — Delivering people's need through my knowledge and craft.",
+	ogImage,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = ogImage ? new URL(ogImage, Astro.site) : undefined;
 ---
 
-<html lang="en">
+<html lang="en" class="light">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="description" content={description} />
+		<link rel="icon" href="data:," />
+		<link rel="canonical" href={canonicalURL} />
+		<link rel="alternate" type="application/rss+xml" title="Genesis Tadeo" href="/rss.xml" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		{ogImageURL && <meta property="og:image" content={ogImageURL} />}
+
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		{ogImageURL && <meta name="twitter:image" content={ogImageURL} />}
+
 		<title>{title}</title>
+		<ClientRouter />
+
+		<script is:inline>
+			function applyTheme() {
+				var s = localStorage.getItem('theme');
+				var d = s === 'dark' || (!s && matchMedia('(prefers-color-scheme: dark)').matches);
+				document.documentElement.className = d ? 'dark' : 'light';
+			}
+			applyTheme();
+			document.addEventListener('astro:after-swap', applyTheme);
+			document.addEventListener('click', function(e) {
+				if (e.target.closest('#theme-toggle')) {
+					var d = document.documentElement.classList.contains('dark');
+					localStorage.setItem('theme', d ? 'light' : 'dark');
+					applyTheme();
+				}
+			});
+		</script>
 	</head>
-	<body class="min-h-screen flex items-center justify-center p-4 sm:p-8 lg:p-10">
-		<main class="w-full max-w-2xl mx-auto">
-			<slot />
-		</main>
+	<body class="min-h-screen p-4 sm:p-8 lg:p-12">
+		<a href="#main-content" class="skip-link">Skip to content</a>
+
+		<div class="page-shell">
+			<main id="main-content">
+				<slot />
+			</main>
+		</div>
+
+		<script>
+			function initCopyButtons() {
+				document.querySelectorAll('.prose pre').forEach((block) => {
+					if (block.querySelector('.copy-btn')) return;
+
+					const wrapper = document.createElement('div');
+					wrapper.className = 'code-block-wrapper';
+					block.parentNode!.insertBefore(wrapper, block);
+					wrapper.appendChild(block);
+
+					const btn = document.createElement('button');
+					btn.className = 'copy-btn';
+					btn.textContent = 'Copy';
+					btn.setAttribute('aria-label', 'Copy code');
+					btn.addEventListener('click', async () => {
+						const code = block.querySelector('code');
+						if (code) {
+							await navigator.clipboard.writeText(code.textContent || '');
+							btn.textContent = 'Copied!';
+							setTimeout(() => (btn.textContent = 'Copy'), 2000);
+						}
+					});
+					wrapper.appendChild(btn);
+				});
+			}
+
+			initCopyButtons();
+			document.addEventListener('astro:after-swap', initCopyButtons);
+		</script>
 	</body>
 </html>

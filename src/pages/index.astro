@@ -1,43 +1,99 @@
 ---
 import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = (await getCollection('posts')).sort(
+	(a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+function formatDate(date: Date) {
+	return date.toISOString().split('T')[0];
+}
 ---
 
 <Base title="Genesis Tadeo">
-	<header class="mb-12">
-		<h1 class="text-2xl font-semibold mb-1">Genesis Tadeo</h1>
-		<p class="text-muted text-[0.95rem]">Software engineer specializing in API design and development.</p>
+	<header class="page-toolbar">
+		<div></div>
+		<button
+			id="theme-toggle"
+			type="button"
+			class="theme-toggle"
+			aria-label="Toggle dark mode"
+		>
+			<svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<circle cx="12" cy="12" r="5"></circle>
+				<line x1="12" y1="1" x2="12" y2="3"></line>
+				<line x1="12" y1="21" x2="12" y2="23"></line>
+				<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+				<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+				<line x1="1" y1="12" x2="3" y2="12"></line>
+				<line x1="21" y1="12" x2="23" y2="12"></line>
+				<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+				<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+			</svg>
+			<svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+			</svg>
+		</button>
 	</header>
 
-	<section class="mb-8">
-		<h2 class="text-xs font-medium uppercase tracking-wide text-text mb-2">Work</h2>
-		<ul class="list-none">
-			<li><a href="https://talkpush.com/" target="_blank" rel="noopener">Talkpush</a> <span class="text-muted">&mdash; Senior Software Engineer</span></li>
+	<section class="page-intro">
+		<h1 class="page-title">Genesis Tadeo</h1>
+	</section>
+
+	<section class="simple-section">
+		<div class="section-heading">
+			<h2 class="section-title">Posts</h2>
+			<a href="/rss.xml" class="rss-icon" aria-label="RSS Feed">
+				<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M4 11a9 9 0 0 1 9 9"></path>
+					<path d="M4 4a16 16 0 0 1 16 16"></path>
+					<circle cx="5" cy="19" r="1"></circle>
+				</svg>
+			</a>
+		</div>
+		<ul class="simple-post-list">
+			{allPosts.map((post) => (
+				<li class="simple-post-row">
+					<time class="simple-date">{formatDate(post.data.date)}</time>
+					<a href={`/posts/${post.id}`} class="simple-post-link">
+						{post.data.title}
+					</a>
+				</li>
+			))}
 		</ul>
 	</section>
 
-	<section class="mb-8">
-		<h2 class="text-xs font-medium uppercase tracking-wide text-text mb-2">Past</h2>
-		<ul class="list-none">
-			<li><a href="http://www.globelabs.com.ph/#!/home" target="_blank" rel="noopener">Globe Labs</a> <span class="text-muted">&mdash; A.P.I. Engineer</span></li>
-			<li><a href="http://infoshiftinc.com/" target="_blank" rel="noopener">Infoshift Inc</a> <span class="text-muted">&mdash; Software Engineer</span></li>
+	<section class="simple-section">
+		<h2 class="section-title">Work</h2>
+		<ul class="simple-bullets">
+			<li>
+				<a href="https://talkpush.com/" target="_blank" rel="noopener">Talkpush</a>
+				<span class="inline-meta">Senior Software Engineer</span>
+			</li>
 		</ul>
 	</section>
 
-	<section class="mb-8">
-		<h2 class="text-xs font-medium uppercase tracking-wide text-text mb-2">Posts</h2>
-		<p><a href="/posts/1">Read my posts</a> <span class="text-muted">&mdash; Reading, running, software engineering, among other things</span></p>
+	<section class="simple-section">
+		<h2 class="section-title">Past</h2>
+		<ul class="simple-bullets">
+			<li>
+				<a href="http://www.globelabs.com.ph/#!/home" target="_blank" rel="noopener">Globe Labs</a>
+				<span class="inline-meta">A.P.I. Engineer</span>
+			</li>
+			<li>
+				<a href="http://infoshiftinc.com/" target="_blank" rel="noopener">Infoshift Inc</a>
+				<span class="inline-meta">Software Engineer</span>
+			</li>
+		</ul>
 	</section>
 
-	<section class="mb-8">
-		<h2 class="text-xs font-medium uppercase tracking-wide text-text mb-2">Socials</h2>
-		<ul class="list-none">
+	<section class="simple-section">
+		<h2 class="section-title">Get in touch</h2>
+		<ul class="simple-links">
 			<li><a href="https://github.com/getadeo" target="_blank" rel="noopener">GitHub</a></li>
 			<li><a href="https://twitter.com/ge_tadeo" target="_blank" rel="noopener">X</a></li>
+			<li><a href="mailto:mr.ge.tadeo@gmail.com">mr.ge.tadeo@gmail.com</a></li>
 		</ul>
-	</section>
-
-	<section class="mb-8">
-		<h2 class="text-xs font-medium uppercase tracking-wide text-text mb-2">Contact</h2>
-		<p><a href="mailto:mr.ge.tadeo@gmail.com">mr.ge.tadeo@gmail.com</a></p>
 	</section>
 </Base>

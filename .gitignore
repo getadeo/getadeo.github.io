@@ -20,6 +20,9 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# Erlang crash dumps
+erl_crash.dump
+
 # jetbrains setting folder
 .idea/
 
