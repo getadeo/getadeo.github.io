@@ -1,41 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'JetBrains Mono';
-  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-family: 'Commit Mono';
+  src: url('/fonts/CommitMono-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'JetBrains Mono';
-  src: url('/fonts/JetBrainsMono-Italic.woff2') format('woff2');
+  font-family: 'Commit Mono';
+  src: url('/fonts/CommitMono-Italic.woff2') format('woff2');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'JetBrains Mono';
-  src: url('/fonts/JetBrainsMono-Medium.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'JetBrains Mono';
-  src: url('/fonts/JetBrainsMono-Bold.woff2') format('woff2');
+  font-family: 'Commit Mono';
+  src: url('/fonts/CommitMono-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @theme {
-  --font-sans: 'Nunito', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: 'Commit Mono', monospace;
+  --font-mono: 'Commit Mono', monospace;
   --color-text: #37352f;
   --color-muted: #787774;
   --color-link: #37352f;
@@ -67,7 +58,7 @@
   }
 
   body {
-    @apply font-sans text-text bg-bg leading-relaxed;
+    @apply font-sans text-text bg-bg leading-relaxed text-[15px];
   }
 
   .page-shell {
