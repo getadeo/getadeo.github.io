@@ -1,0 +1,18 @@
+---
+interface Props {
+	title?: string;
+	isEmpty?: boolean;
+	emptyMessage?: string;
+}
+
+const { title, isEmpty = false, emptyMessage = 'No entries yet.' } = Astro.props;
+---
+
+<section class="simple-section">
+	{title && (
+		<header class="list-heading">
+			<h1 class="list-title">{title}</h1>
+		</header>
+	)}
+	{isEmpty ? <p class="empty-state">{emptyMessage}</p> : <slot />}
+</section>

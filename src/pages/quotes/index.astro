@@ -1,0 +1,17 @@
+---
+import ArchiveSection from '../../components/ArchiveSection.astro';
+import Pagination from '../../components/Pagination.astro';
+import QuoteEntryList from '../../components/QuoteEntryList.astro';
+import SitePage from '../../layouts/SitePage.astro';
+import { getQuotes, nextPageHref, pageOne } from '../../utils/allEntries';
+
+const allQuotes = await getQuotes();
+const quotes = pageOne(allQuotes);
+---
+
+<SitePage title="Quotes — Genesis Tadeo" description="Saved quotes from Genesis Tadeo." current="quotes">
+	<ArchiveSection title="Quotes" isEmpty={quotes.length === 0} emptyMessage="No quotes saved yet.">
+		<QuoteEntryList quotes={quotes} />
+		<Pagination nextHref={nextPageHref(allQuotes, '/quotes/page/2/')} />
+	</ArchiveSection>
+</SitePage>

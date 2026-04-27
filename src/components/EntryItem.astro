@@ -1,0 +1,72 @@
+---
+import { render } from 'astro:content';
+import type { TimelineEntry } from '../utils/allEntries';
+import LinkEntryItem from './LinkEntryItem.astro';
+import PostEntryItem from './PostEntryItem.astro';
+import QuoteEntryItem from './QuoteEntryItem.astro';
+
+interface Props {
+	entry: TimelineEntry;
+}
+
+const { entry } = Astro.props;
+let Content: Awaited<ReturnType<typeof render>>['Content'] | undefined;
+let hasNotes = false;
+
+if (entry.type === 'link') {
+	({ Content } = await render(entry.link));
+	hasNotes = (entry.link.body?.trim().length ?? 0) > 0;
+}
+
+if (entry.type === 'quote') {
+	({ Content } = await render(entry.quote));
+	hasNotes = (entry.quote.body?.trim().length ?? 0) > 0;
+}
+---
+
+{entry.type === 'post' && (
+	<PostEntryItem
+		date={entry.post.data.date}
+		href={`/posts/${entry.post.id}`}
+		title={entry.post.data.title}
+		description={entry.post.data.description}
+		showKind
+	/>
+)}
+
+{entry.type === 'link' && (
+	<LinkEntryItem
+		date={entry.link.data.date}
+		title={entry.link.data.title}
+		url={entry.link.data.url}
+		viaUrl={entry.link.data.viaUrl}
+		viaTitle={entry.link.data.viaTitle}
+		quote={entry.link.data.quote}
+		description={entry.link.data.description}
+		showKind
+	>
+		{hasNotes && Content && (
+			<div class="prose entry-notes">
+				<Content />
+			</div>
+		)}
+	</LinkEntryItem>
+)}
+
+{entry.type === 'quote' && (
+	<QuoteEntryItem
+		id={entry.quote.id}
+		date={entry.quote.data.date}
+		quote={entry.quote.data.quote}
+		source={entry.quote.data.source}
+		sourceUrl={entry.quote.data.sourceUrl}
+		context={entry.quote.data.context}
+		showKind
+	>
+		{hasNotes && Content && (
+			<div class="prose entry-notes">
+				<Content />
+			</div>
+		)}
+	</QuoteEntryItem>
+)}

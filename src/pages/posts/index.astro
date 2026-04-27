@@ -1,0 +1,17 @@
+---
+import ArchiveSection from '../../components/ArchiveSection.astro';
+import Pagination from '../../components/Pagination.astro';
+import PostEntryList from '../../components/PostEntryList.astro';
+import SitePage from '../../layouts/SitePage.astro';
+import { getPosts, nextPageHref, pageOne } from '../../utils/allEntries';
+
+const allPosts = await getPosts();
+const posts = pageOne(allPosts);
+---
+
+<SitePage title="Posts — Genesis Tadeo" description="Posts by Genesis Tadeo." current="posts">
+	<ArchiveSection title="Posts" isEmpty={posts.length === 0} emptyMessage="No posts yet.">
+		<PostEntryList posts={posts} />
+		<Pagination nextHref={nextPageHref(allPosts, '/posts/page/2/')} />
+	</ArchiveSection>
+</SitePage>

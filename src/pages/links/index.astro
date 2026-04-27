@@ -1,0 +1,17 @@
+---
+import ArchiveSection from '../../components/ArchiveSection.astro';
+import LinkEntryList from '../../components/LinkEntryList.astro';
+import Pagination from '../../components/Pagination.astro';
+import SitePage from '../../layouts/SitePage.astro';
+import { getLinks, nextPageHref, pageOne } from '../../utils/allEntries';
+
+const allLinks = await getLinks();
+const links = pageOne(allLinks);
+---
+
+<SitePage title="Links — Genesis Tadeo" description="Links with notes and commentary from Genesis Tadeo." current="links">
+	<ArchiveSection title="Links" isEmpty={links.length === 0} emptyMessage="No links saved yet.">
+		<LinkEntryList links={links} />
+		<Pagination nextHref={nextPageHref(allLinks, '/links/page/2/')} />
+	</ArchiveSection>
+</SitePage>

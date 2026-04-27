@@ -1,0 +1,17 @@
+---
+import SiteHeader from '../components/SiteHeader.astro';
+import Base from './Base.astro';
+
+interface Props {
+	title: string;
+	description?: string;
+	current?: 'all' | 'posts' | 'links' | 'quotes';
+}
+
+const { title, description, current } = Astro.props;
+---
+
+<Base title={title} description={description}>
+	<SiteHeader current={current} />
+	<slot />
+</Base>

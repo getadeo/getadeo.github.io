@@ -1,0 +1,14 @@
+---
+import type { TimelineEntry } from '../utils/allEntries';
+import EntryItem from './EntryItem.astro';
+
+interface Props {
+	entries: TimelineEntry[];
+}
+
+const { entries } = Astro.props;
+---
+
+<ul class="simple-post-list">
+	{entries.map((entry) => <EntryItem entry={entry} />)}
+</ul>

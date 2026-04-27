@@ -1,0 +1,28 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import ArchiveSection from '../../../components/ArchiveSection.astro';
+import Pagination from '../../../components/Pagination.astro';
+import QuoteEntryList from '../../../components/QuoteEntryList.astro';
+import SitePage from '../../../layouts/SitePage.astro';
+import {
+	getQuotes,
+	PAGE_SIZE,
+	previousPageHref,
+	skipFirstPage,
+	type QuoteEntry,
+} from '../../../utils/allEntries';
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const allQuotes = await getQuotes();
+	return skipFirstPage(paginate(allQuotes, { pageSize: PAGE_SIZE }));
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props as { page: Page<QuoteEntry> };
+---
+
+<SitePage title={`Quotes, page ${page.currentPage} — Genesis Tadeo`} description="Saved quotes from Genesis Tadeo." current="quotes">
+	<ArchiveSection title="Quotes">
+		<QuoteEntryList quotes={page.data} />
+		<Pagination prevHref={previousPageHref(page, '/quotes/')} nextHref={page.url.next} />
+	</ArchiveSection>
+</SitePage>

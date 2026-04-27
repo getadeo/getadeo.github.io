@@ -1,0 +1,37 @@
+---
+import { render } from 'astro:content';
+import type { LinkEntry } from '../utils/allEntries';
+import LinkEntryItem from './LinkEntryItem.astro';
+
+interface Props {
+	links: LinkEntry[];
+	showKind?: boolean;
+}
+
+const { links, showKind = false } = Astro.props;
+---
+
+<ul class="simple-post-list">
+	{links.map(async (link) => {
+		const { Content } = await render(link);
+		const hasNotes = (link.body?.trim().length ?? 0) > 0;
+		return (
+			<LinkEntryItem
+				date={link.data.date}
+				title={link.data.title}
+				url={link.data.url}
+				viaUrl={link.data.viaUrl}
+				viaTitle={link.data.viaTitle}
+				quote={link.data.quote}
+				description={link.data.description}
+				showKind={showKind}
+			>
+				{hasNotes && (
+					<div class="prose entry-notes">
+						<Content />
+					</div>
+				)}
+			</LinkEntryItem>
+		);
+	})}
+</ul>

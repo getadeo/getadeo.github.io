@@ -1,0 +1,36 @@
+---
+import { render } from 'astro:content';
+import type { QuoteEntry } from '../utils/allEntries';
+import QuoteEntryItem from './QuoteEntryItem.astro';
+
+interface Props {
+	quotes: QuoteEntry[];
+	showKind?: boolean;
+}
+
+const { quotes, showKind = false } = Astro.props;
+---
+
+<ul class="simple-post-list">
+	{quotes.map(async (quote) => {
+		const { Content } = await render(quote);
+		const hasNotes = (quote.body?.trim().length ?? 0) > 0;
+		return (
+			<QuoteEntryItem
+				id={quote.id}
+				date={quote.data.date}
+				quote={quote.data.quote}
+				source={quote.data.source}
+				sourceUrl={quote.data.sourceUrl}
+				context={quote.data.context}
+				showKind={showKind}
+			>
+				{hasNotes && (
+					<div class="prose entry-notes">
+						<Content />
+					</div>
+				)}
+			</QuoteEntryItem>
+		);
+	})}
+</ul>

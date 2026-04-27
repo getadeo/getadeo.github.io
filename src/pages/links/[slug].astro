@@ -1,0 +1,51 @@
+---
+import { render } from 'astro:content';
+import SitePage from '../../layouts/SitePage.astro';
+import { getLinks } from '../../utils/allEntries';
+import { getViaLabel } from '../../utils/entries';
+
+export async function getStaticPaths() {
+	const links = await getLinks();
+	return links.map((link) => ({
+		params: { slug: link.id },
+		props: { link },
+	}));
+}
+
+const { link } = Astro.props;
+const { Content } = await render(link);
+const hasNotes = (link.body?.trim().length ?? 0) > 0;
+const viaLabel = getViaLabel(link.data.viaUrl, link.data.viaTitle);
+const pageDescription =
+	link.data.description ?? link.data.quote ?? `A saved link to ${link.data.title}.`;
+---
+
+<SitePage title={`${link.data.title} — Genesis Tadeo`} description={pageDescription} current="links">
+	<article class="article-shell">
+		<header class="mb-8">
+			<h1 class="page-title mb-2">
+				<a href={link.data.url} target="_blank" rel="noopener noreferrer">{link.data.title}</a>
+			</h1>
+			<div class="article-meta">
+				<time>{link.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+				{viaLabel && link.data.viaUrl && (
+					<span>
+						{' '}· via{' '}
+						<a href={link.data.viaUrl} target="_blank" rel="noopener noreferrer">{viaLabel}</a>
+					</span>
+				)}
+				{link.data.tags && <span> · {link.data.tags.join(', ')}</span>}
+			</div>
+			{link.data.description && <p class="page-summary mt-4">{link.data.description}</p>}
+		</header>
+
+		{link.data.quote && <blockquote class="link-excerpt">{link.data.quote}</blockquote>}
+
+		{hasNotes && (
+			<div class="prose">
+				<Content />
+			</div>
+		)}
+
+	</article>
+</SitePage>

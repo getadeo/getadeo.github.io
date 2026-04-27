@@ -1,0 +1,36 @@
+---
+import EntryNav from './EntryNav.astro';
+import PageToolbar from './PageToolbar.astro';
+import RssButton from './RssButton.astro';
+import SocialLinks from './SocialLinks.astro';
+
+interface Props {
+	current?: 'all' | 'posts' | 'links' | 'quotes';
+}
+
+const { current } = Astro.props;
+---
+
+<header class="site-header">
+	<PageToolbar className="page-toolbar" />
+
+	<section class="site-intro">
+		<p class="site-name">
+			<a href="/" class="site-name-link">Genesis Tadeo</a>
+		</p>
+		<p class="site-lead">Software Engineer based in Manila, Philippines.</p>
+		<p class="site-meta">
+			Currently at <a href="https://talkpush.com/" target="_blank" rel="noopener">Talkpush</a>,
+			previously at <a href="http://www.globelabs.com.ph/#!/home" target="_blank" rel="noopener">Globe Labs</a>
+			and <a href="http://infoshiftinc.com/" target="_blank" rel="noopener">Infoshift Inc</a>.
+		</p>
+		<div class="site-social-row">
+			<span class="site-social-label">Reach out</span>
+			<SocialLinks />
+		</div>
+		<div class="site-nav-row">
+			<EntryNav current={current} />
+			<RssButton />
+		</div>
+	</section>
+</header>

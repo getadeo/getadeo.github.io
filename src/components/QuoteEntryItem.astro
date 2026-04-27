@@ -1,0 +1,45 @@
+---
+import { formatDate } from '../utils/entries';
+
+interface Props {
+	id?: string;
+	date: Date;
+	quote: string;
+	source: string;
+	sourceUrl?: string;
+	context?: string;
+	showKind?: boolean;
+}
+
+const {
+	id,
+	date,
+	quote,
+	source,
+	sourceUrl,
+	context,
+	showKind = false,
+} = Astro.props;
+---
+
+<li id={id} class="simple-post-row">
+	<time class="simple-date">{formatDate(date)}</time>
+	<div class="simple-entry-copy">
+		{showKind && (
+			<p class="link-item-header">
+				<span class="entry-kind">Quote</span>
+			</p>
+		)}
+		<p class="quote-excerpt">“{quote}”</p>
+		<p class="quote-citation">
+			—{' '}
+			{sourceUrl ? (
+				<a href={sourceUrl} target="_blank" rel="noopener noreferrer">{source}</a>
+			) : (
+				source
+			)}
+			{context && <span>, {context}</span>}
+		</p>
+		<slot />
+	</div>
+</li>

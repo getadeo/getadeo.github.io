@@ -1,0 +1,36 @@
+---
+import IconLink from './IconLink.astro';
+import BlueskyIcon from './icons/BlueskyIcon.astro';
+import EmailIcon from './icons/EmailIcon.astro';
+import GitHubIcon from './icons/GitHubIcon.astro';
+import MastodonIcon from './icons/MastodonIcon.astro';
+import XIcon from './icons/XIcon.astro';
+---
+
+<ul class="social-links">
+	<li>
+		<IconLink className="social-link-button" href="https://github.com/getadeo" label="GitHub">
+			<GitHubIcon />
+		</IconLink>
+	</li>
+	<li>
+		<IconLink className="social-link-button" href="https://bsky.app/profile/getadeo.bsky.social" label="Bluesky">
+			<BlueskyIcon />
+		</IconLink>
+	</li>
+	<li>
+		<IconLink className="social-link-button" href="https://mastodon.social/@getadeo" label="Mastodon" rel="me noopener">
+			<MastodonIcon />
+		</IconLink>
+	</li>
+	<li>
+		<IconLink className="social-link-button" href="https://twitter.com/ge_tadeo" label="X">
+			<XIcon />
+		</IconLink>
+	</li>
+	<li>
+		<IconLink className="social-link-button" href="mailto:mr.ge.tadeo@gmail.com" label="Email">
+			<EmailIcon />
+		</IconLink>
+	</li>
+</ul>

@@ -1,0 +1,46 @@
+---
+interface Props {
+	current?: 'all' | 'posts' | 'links' | 'quotes';
+}
+
+const { current } = Astro.props;
+const pathname = Astro.url.pathname;
+const active =
+	current ??
+	(pathname === '/'
+		? 'all'
+		: pathname.startsWith('/posts')
+			? 'posts'
+			: pathname.startsWith('/links')
+				? 'links'
+				: pathname.startsWith('/quotes')
+					? 'quotes'
+					: undefined);
+---
+
+<nav class="entry-nav" aria-label="Browse entries by type">
+	<a href="/" class="entry-nav-link" aria-current={active === 'all' ? 'page' : undefined}>
+		Entries
+	</a>
+	<a
+		href="/posts/"
+		class="entry-nav-link"
+		aria-current={active === 'posts' ? 'page' : undefined}
+	>
+		Posts
+	</a>
+	<a
+		href="/links/"
+		class="entry-nav-link"
+		aria-current={active === 'links' ? 'page' : undefined}
+	>
+		Links
+	</a>
+	<a
+		href="/quotes/"
+		class="entry-nav-link"
+		aria-current={active === 'quotes' ? 'page' : undefined}
+	>
+		Quotes
+	</a>
+</nav>

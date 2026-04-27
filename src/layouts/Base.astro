@@ -25,7 +25,7 @@ const ogImageURL = ogImage ? new URL(ogImage, Astro.site) : undefined;
 		<meta name="description" content={description} />
 		<link rel="icon" href="data:," />
 		<link rel="canonical" href={canonicalURL} />
-		<link rel="alternate" type="application/rss+xml" title="Genesis Tadeo" href="/rss.xml" />
+		<link rel="alternate" type="application/rss+xml" title="Genesis Tadeo — All entries" href="/rss.xml" />
 
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content={canonicalURL} />
@@ -42,19 +42,35 @@ const ogImageURL = ogImage ? new URL(ogImage, Astro.site) : undefined;
 		<ClientRouter />
 
 		<script is:inline>
-			function applyTheme() {
+			function getStoredTheme() {
 				var s = localStorage.getItem('theme');
-				var d = s === 'dark' || (!s && matchMedia('(prefers-color-scheme: dark)').matches);
-				document.documentElement.className = d ? 'dark' : 'light';
+				return s === 'light' || s === 'dark' ? s : 'auto';
+			}
+			function applyTheme() {
+				var stored = getStoredTheme();
+				var effective = stored === 'auto'
+					? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+					: stored;
+				document.documentElement.className = effective;
+				document.querySelectorAll('#theme-toggle').forEach(function(toggle) {
+					toggle.setAttribute('data-theme', stored);
+					toggle.setAttribute('aria-label', 'Theme: ' + stored + ' (click to change)');
+				});
+			}
+			function cycleTheme() {
+				var next = { auto: 'light', light: 'dark', dark: 'auto' }[getStoredTheme()];
+				if (next === 'auto') localStorage.removeItem('theme');
+				else localStorage.setItem('theme', next);
+				applyTheme();
 			}
 			applyTheme();
+			document.addEventListener('DOMContentLoaded', applyTheme);
 			document.addEventListener('astro:after-swap', applyTheme);
+			matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+				if (getStoredTheme() === 'auto') applyTheme();
+			});
 			document.addEventListener('click', function(e) {
-				if (e.target.closest('#theme-toggle')) {
-					var d = document.documentElement.classList.contains('dark');
-					localStorage.setItem('theme', d ? 'light' : 'dark');
-					applyTheme();
-				}
+				if (e.target.closest('#theme-toggle')) cycleTheme();
 			});
 		</script>
 	</head>

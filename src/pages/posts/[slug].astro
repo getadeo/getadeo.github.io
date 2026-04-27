@@ -1,9 +1,10 @@
 ---
-import { getCollection, render } from 'astro:content';
-import Base from '../../layouts/Base.astro';
+import { render } from 'astro:content';
+import SitePage from '../../layouts/SitePage.astro';
+import { getPosts } from '../../utils/allEntries';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('posts');
+	const posts = await getPosts();
 	return posts.map((post) => ({
 		params: { slug: post.id },
 		props: { post },
@@ -12,49 +13,17 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-
-// Estimate reading time (~200 words per minute)
 const words = post.body?.split(/\s+/).length ?? 0;
 const readingTime = Math.max(1, Math.ceil(words / 200));
 ---
 
-<Base title={`${post.data.title} — Genesis Tadeo`} description={post.data.description}>
-	<div class="page-toolbar mb-8">
-		<nav class="eyebrow-nav">
-			<a href="/">Home</a>
-		</nav>
-		<button
-			id="theme-toggle"
-			type="button"
-			class="theme-toggle"
-			aria-label="Toggle dark mode"
-		>
-			<svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<circle cx="12" cy="12" r="5"></circle>
-				<line x1="12" y1="1" x2="12" y2="3"></line>
-				<line x1="12" y1="21" x2="12" y2="23"></line>
-				<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-				<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-				<line x1="1" y1="12" x2="3" y2="12"></line>
-				<line x1="21" y1="12" x2="23" y2="12"></line>
-				<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-				<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-			</svg>
-			<svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-			</svg>
-		</button>
-	</div>
-
+<SitePage title={`${post.data.title} — Genesis Tadeo`} description={post.data.description} current="posts">
 	<article class="article-shell">
 		<header class="mb-8">
-			<div class="eyebrow mb-3">Post</div>
 			<h1 class="page-title mb-2">{post.data.title}</h1>
 			<div class="article-meta">
 				<time>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
-				{post.data.tags && (
-					<span> · {post.data.tags.join(', ')}</span>
-				)}
+				{post.data.tags && <span> · {post.data.tags.join(', ')}</span>}
 				<span> · {readingTime} min read</span>
 			</div>
 		</header>
@@ -63,4 +32,4 @@ const readingTime = Math.max(1, Math.ceil(words / 200));
 			<Content />
 		</div>
 	</article>
-</Base>
+</SitePage>

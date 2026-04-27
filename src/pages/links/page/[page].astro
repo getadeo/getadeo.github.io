@@ -1,0 +1,28 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import ArchiveSection from '../../../components/ArchiveSection.astro';
+import LinkEntryList from '../../../components/LinkEntryList.astro';
+import Pagination from '../../../components/Pagination.astro';
+import SitePage from '../../../layouts/SitePage.astro';
+import {
+	getLinks,
+	PAGE_SIZE,
+	previousPageHref,
+	skipFirstPage,
+	type LinkEntry,
+} from '../../../utils/allEntries';
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const allLinks = await getLinks();
+	return skipFirstPage(paginate(allLinks, { pageSize: PAGE_SIZE }));
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props as { page: Page<LinkEntry> };
+---
+
+<SitePage title={`Links, page ${page.currentPage} — Genesis Tadeo`} description="Links with notes and commentary from Genesis Tadeo." current="links">
+	<ArchiveSection title="Links">
+		<LinkEntryList links={page.data} />
+		<Pagination prevHref={previousPageHref(page, '/links/')} nextHref={page.url.next} />
+	</ArchiveSection>
+</SitePage>

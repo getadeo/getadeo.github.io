@@ -1,0 +1,34 @@
+---
+import { formatDate } from '../utils/entries';
+
+interface Props {
+	date: Date;
+	href: string;
+	title: string;
+	description?: string;
+	showKind?: boolean;
+}
+
+const {
+	date,
+	href,
+	title,
+	description,
+	showKind = false,
+} = Astro.props;
+---
+
+<li class="simple-post-row">
+	<time class="simple-date">{formatDate(date)}</time>
+	<div class="simple-entry-copy">
+		{showKind && (
+			<p class="link-item-header">
+				<span class="entry-kind">Post</span>
+			</p>
+		)}
+		<p class="entry-title-line">
+			<a href={href} class="simple-post-link">{title}</a>
+		</p>
+		{description && <p class="entry-summary">{description}</p>}
+	</div>
+</li>

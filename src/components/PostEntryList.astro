@@ -1,0 +1,23 @@
+---
+import type { PostEntry } from '../utils/allEntries';
+import PostEntryItem from './PostEntryItem.astro';
+
+interface Props {
+	posts: PostEntry[];
+	showKind?: boolean;
+}
+
+const { posts, showKind = false } = Astro.props;
+---
+
+<ul class="simple-post-list">
+	{posts.map((post) => (
+		<PostEntryItem
+			date={post.data.date}
+			href={`/posts/${post.id}`}
+			title={post.data.title}
+			description={post.data.description}
+			showKind={showKind}
+		/>
+	))}
+</ul>

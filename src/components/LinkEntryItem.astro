@@ -1,0 +1,46 @@
+---
+import { formatDate, getViaLabel } from '../utils/entries';
+
+interface Props {
+	date: Date;
+	title: string;
+	url: string;
+	viaUrl?: string;
+	viaTitle?: string;
+	quote?: string;
+	description?: string;
+	showKind?: boolean;
+}
+
+const {
+	date,
+	title,
+	url,
+	viaUrl,
+	viaTitle,
+	quote,
+	description,
+	showKind = false,
+} = Astro.props;
+const viaLabel = getViaLabel(viaUrl, viaTitle);
+---
+
+<li class="simple-post-row">
+	<time class="simple-date">{formatDate(date)}</time>
+	<div class="simple-entry-copy">
+		{showKind && (
+			<p class="link-item-header">
+				<span class="entry-kind">Link</span>
+			</p>
+		)}
+		<p class="entry-title-line link-title-line">
+			<a href={url} class="simple-post-link" target="_blank" rel="noopener noreferrer">{title}</a>
+			{viaLabel && viaUrl && (
+				<span class="link-via">(via <a href={viaUrl} target="_blank" rel="noopener noreferrer">{viaLabel}</a>)</span>
+			)}
+		</p>
+		{quote && <blockquote class="link-excerpt">{quote}</blockquote>}
+		{description && <p class="link-summary">{description}</p>}
+		<slot />
+	</div>
+</li>

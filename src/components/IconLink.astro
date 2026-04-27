@@ -1,0 +1,24 @@
+---
+interface Props {
+	href: string;
+	label: string;
+	className: string;
+	rel?: string;
+	title?: string;
+}
+
+const {
+	href,
+	label,
+	className,
+	rel,
+	title = label,
+} = Astro.props;
+const isExternal = !href.startsWith('/') && !href.startsWith('#') && !href.startsWith('mailto:');
+const target = isExternal ? '_blank' : undefined;
+const linkRel = rel ?? (isExternal ? 'noopener' : undefined);
+---
+
+<a class={className} href={href} target={target} rel={linkRel} aria-label={label} title={title}>
+	<slot />
+</a>
