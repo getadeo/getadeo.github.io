@@ -100,7 +100,7 @@ export async function GET(context: APIContext) {
 			pubDate: quote.data.date,
 			description: `${quote.data.quote}\n\n— ${quote.data.source}${quote.data.context ? `, ${quote.data.context}` : ''}`,
 			content,
-			link: siteUrl(`/quotes/#${quote.id}`),
+			link: siteUrl(`/quotes/${quote.id}/`),
 			categories: quote.data.tags,
 		};
 	}));

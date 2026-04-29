@@ -18,7 +18,9 @@ const byNewest = <T extends { data: { date: Date } }>(a: T, b: T) =>
 const notTemplate = ({ id }: { id: string }) => !id.startsWith('_');
 
 export async function getPosts() {
-	return (await getCollection('posts', notTemplate)).sort(byNewest);
+	return (await getCollection('posts', ({ id, data }) =>
+		notTemplate({ id }) && !data.draft
+	)).sort(byNewest);
 }
 
 export async function getLinks() {

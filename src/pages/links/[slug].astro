@@ -2,7 +2,7 @@
 import { render } from 'astro:content';
 import SitePage from '../../layouts/SitePage.astro';
 import { getLinks } from '../../utils/allEntries';
-import { getViaLabel } from '../../utils/entries';
+import { formatDate, getViaLabel } from '../../utils/entries';
 
 export async function getStaticPaths() {
 	const links = await getLinks();
@@ -27,7 +27,7 @@ const pageDescription =
 				<a href={link.data.url} target="_blank" rel="noopener noreferrer">{link.data.title}</a>
 			</h1>
 			<div class="article-meta">
-				<time>{link.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+				<time datetime={link.data.date.toISOString()}>{formatDate(link.data.date)}</time>
 				{viaLabel && link.data.viaUrl && (
 					<span>
 						{' '}· via{' '}

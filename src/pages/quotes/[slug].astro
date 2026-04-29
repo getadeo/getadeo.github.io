@@ -1,6 +1,46 @@
 ---
-// Quotes are archive-only. Keep this dynamic route from generating pages.
-export function getStaticPaths() {
-	return [];
+import { render } from 'astro:content';
+import SitePage from '../../layouts/SitePage.astro';
+import { getQuotes } from '../../utils/allEntries';
+import { formatDate } from '../../utils/entries';
+
+export async function getStaticPaths() {
+	const quotes = await getQuotes();
+	return quotes.map((quote) => ({
+		params: { slug: quote.id },
+		props: { quote },
+	}));
 }
+
+const { quote } = Astro.props;
+const { Content } = await render(quote);
+const hasNotes = (quote.body?.trim().length ?? 0) > 0;
+const pageTitle = `Quote from ${quote.data.source} — Genesis Tadeo`;
 ---
+
+<SitePage title={pageTitle} description={quote.data.quote} current="quotes">
+	<article class="article-shell">
+		<header class="mb-8">
+			<p class="quote-excerpt">“{quote.data.quote}”</p>
+			<p class="quote-citation">
+				—{' '}
+				{quote.data.sourceUrl ? (
+					<a href={quote.data.sourceUrl} target="_blank" rel="noopener noreferrer">{quote.data.source}</a>
+				) : (
+					quote.data.source
+				)}
+				{quote.data.context && <span>, {quote.data.context}</span>}
+			</p>
+			<div class="article-meta">
+				<time datetime={quote.data.date.toISOString()}>{formatDate(quote.data.date)}</time>
+				{quote.data.tags && <span> · {quote.data.tags.join(', ')}</span>}
+			</div>
+		</header>
+
+		{hasNotes && (
+			<div class="prose">
+				<Content />
+			</div>
+		)}
+	</article>
+</SitePage>

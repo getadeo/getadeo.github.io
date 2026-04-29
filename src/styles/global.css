@@ -1,32 +1,48 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'Commit Mono';
-  src: url('/fonts/CommitMono-Regular.woff2') format('woff2');
+  font-family: 'Caviar Dreams';
+  src: url('/fonts/CaviarDreams.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Commit Mono';
-  src: url('/fonts/CommitMono-Italic.woff2') format('woff2');
+  font-family: 'Caviar Dreams';
+  src: url('/fonts/CaviarDreams_Italic.ttf') format('truetype');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Commit Mono';
-  src: url('/fonts/CommitMono-Bold.woff2') format('woff2');
+  font-family: 'Caviar Dreams';
+  src: url('/fonts/CaviarDreams_Bold.ttf') format('truetype');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Caviar Dreams';
+  src: url('/fonts/CaviarDreams_BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aurulent Sans M Mono';
+  src: url('/fonts/AurulentSansMNerdFontMono-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  --font-sans: 'Commit Mono', monospace;
-  --font-mono: 'Commit Mono', monospace;
+  --font-sans: 'Caviar Dreams', sans-serif;
+  --font-mono: 'Aurulent Sans M Mono', monospace;
   --color-text: #37352f;
   --color-muted: #787774;
   --color-link: #37352f;
@@ -57,8 +73,13 @@
     --color-code-button-hover: #45475a;
   }
 
+  html,
   body {
-    @apply font-sans text-text bg-bg leading-relaxed text-[15px];
+    font-family: var(--font-sans);
+  }
+
+  body {
+    @apply font-sans text-text bg-bg leading-relaxed text-[17px];
   }
 
   .page-shell {
@@ -113,11 +134,11 @@
   }
 
   .site-lead {
-    @apply text-base sm:text-lg leading-snug m-0 mb-5;
+    @apply text-lg sm:text-xl leading-snug m-0 mb-5;
   }
 
   .site-meta {
-    @apply text-sm leading-relaxed text-muted m-0;
+    @apply text-base leading-relaxed text-muted m-0;
   }
 
   .site-social-row {
@@ -125,7 +146,7 @@
   }
 
   .site-social-label {
-    @apply text-sm;
+    @apply text-base;
   }
 
   .site-nav-row {
@@ -305,7 +326,7 @@
   }
 
   .entry-nav-link {
-    @apply text-sm text-muted px-3 py-1.5 rounded-full no-underline;
+    @apply text-base text-muted px-3 py-1.5 rounded-full no-underline;
     text-decoration: none;
   }
 
@@ -342,7 +363,7 @@
   }
 
   .simple-date {
-    @apply text-sm text-muted tabular-nums italic m-0;
+    @apply text-base text-muted tabular-nums italic m-0;
   }
 
   .simple-post-link {
@@ -355,11 +376,11 @@
   }
 
   .entry-kind {
-    @apply text-xs text-muted lowercase tracking-normal;
+    @apply text-sm text-muted lowercase tracking-normal;
   }
 
   .entry-summary {
-    @apply mt-1 mb-0 text-sm text-muted;
+    @apply mt-1 mb-0 text-base text-muted;
   }
 
   .entry-title-line {
@@ -378,7 +399,7 @@
   .link-summary,
   .empty-state,
   .quote-citation {
-    @apply text-sm text-muted;
+    @apply text-base text-muted;
   }
 
   .link-excerpt {
@@ -411,7 +432,7 @@
   }
 
   .entry-notes {
-    @apply mt-3 mb-0 text-sm;
+    @apply mt-3 mb-0 text-base;
   }
 
   .entry-notes p {

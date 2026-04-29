@@ -26,6 +26,10 @@ const ogImageURL = ogImage ? new URL(ogImage, Astro.site) : undefined;
 		<link rel="icon" href="data:," />
 		<link rel="canonical" href={canonicalURL} />
 		<link rel="alternate" type="application/rss+xml" title="Genesis Tadeo — All entries" href="/rss.xml" />
+		<link rel="preload" href="/fonts/CaviarDreams.ttf" as="font" type="font/ttf" crossorigin />
+		<link rel="preload" href="/fonts/CaviarDreams_Bold.ttf" as="font" type="font/ttf" crossorigin />
+		<link rel="preload" href="/fonts/CaviarDreams_Italic.ttf" as="font" type="font/ttf" crossorigin />
+		<link rel="preload" href="/fonts/AurulentSansMNerdFontMono-Regular.otf" as="font" type="font/otf" crossorigin />
 
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content={canonicalURL} />

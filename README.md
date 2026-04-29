@@ -8,7 +8,7 @@ Personal site for Genesis Tadeo, built with [Astro](https://astro.build). The si
 - Astro content collections
 - Tailwind CSS v4 through the Vite plugin
 - TypeScript
-- Self-hosted Commit Mono fonts
+- Self-hosted Caviar Dreams and AurulentSansM Nerd Font assets
 - Static deploy to GitHub Pages
 
 ## Content Types
@@ -19,7 +19,7 @@ Content lives in `src/content/` and is loaded through Astro content collections.
 src/content/
 ├── posts/    # Blog posts with individual pages
 ├── links/    # Link posts with individual pages
-└── quotes/   # Saved quotes shown in the quotes archive
+└── quotes/   # Saved quotes with archive and detail pages
 ```
 
 ### Posts
@@ -38,6 +38,7 @@ Optional frontmatter:
 ```yaml
 description: 'Short summary.'
 tags: ['tag']
+draft: false
 ```
 
 Routes:
@@ -96,11 +97,12 @@ tags: ['tag']
 draft: false
 ```
 
-Quotes are archive-first and do not generate individual quote pages.
+Quotes have an archive and individual pages for RSS readers or direct links.
 
-Route:
+Routes:
 
 - `/quotes/`
+- `/quotes/[slug]/`
 
 ## Routes
 
@@ -115,6 +117,7 @@ Route:
 /links/[slug]/       # Link detail
 /quotes/             # Quotes archive
 /quotes/page/[page]/ # Paginated quotes
+/quotes/[slug]/      # Quote detail
 /rss.xml             # Full-content RSS feed for all entries
 /404.html            # Not found page
 ```
@@ -134,6 +137,10 @@ src/pages/rss.xml.ts        # Full-content RSS feed
 src/styles/global.css       # Tailwind v4 theme tokens and global styles
 astro.config.mjs            # Astro config, site URL, Tailwind plugin
 ```
+
+## Fonts
+
+The site self-hosts Caviar Dreams for body text and AurulentSansM Nerd Font Mono for code. Caviar Dreams is sourced from DaFont, where it is listed as 100% Free. AurulentSansM Nerd Font is distributed under the SIL Open Font License; the local license copy is in `public/fonts/AurulentSansM-OFL.txt`.
 
 ## RSS
 
