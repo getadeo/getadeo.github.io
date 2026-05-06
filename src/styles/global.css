@@ -51,7 +51,7 @@
   --color-surface: #f7f6f3;
   --color-surface-strong: #f1f1ef;
   --color-border: #e9e9e7;
-  --color-highlight: #fbf3db;
+  --color-highlight: #a4f0bc;
   --color-code-border: #ccd0da;
   --color-code-button: #dce0e8;
   --color-code-button-hover: #bcc0cc;
@@ -67,7 +67,7 @@
     --color-surface: #232323;
     --color-surface-strong: #2f2f2f;
     --color-border: #373737;
-    --color-highlight: #2f2f2f;
+    --color-highlight: #a4f0bc;
     --color-code-border: #313244;
     --color-code-button: #313244;
     --color-code-button-hover: #45475a;
@@ -190,6 +190,10 @@
 
   .article-shell {
     @apply max-w-2xl;
+  }
+
+  .not-found-shell {
+    @apply flex min-h-[50vh] flex-col items-center justify-center text-center;
   }
 
   .article-meta {
